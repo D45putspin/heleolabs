@@ -400,10 +400,8 @@ export default function LucidLab() {
       <header className="relative z-10">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 md:px-6 md:py-6">
           <div className="flex items-center gap-2 md:gap-3">
-            <div className="relative h-12 w-12 md:h-14 md:w-14 border-2 border-white bg-black flex flex-col items-center justify-center font-mono">
-              <div className="absolute top-0.5 left-1 text-[8px] md:text-[9px] text-white/60">43</div>
-              <div className="text-xl md:text-2xl font-bold text-white">HL</div>
-              <div className="absolute bottom-0.5 text-[7px] md:text-[8px] text-white/50 uppercase tracking-wider">Heleo</div>
+            <div className="relative h-12 w-12 md:h-14 md:w-14 border-2 border-white bg-black overflow-hidden">
+              <img src="/HL.png" alt="HeleoLab logo" className="h-full w-full object-contain" />
             </div>
             <span className="font-mono text-lg md:text-xl tracking-widest">HELEOLAB</span>
           </div>
@@ -925,4 +923,3 @@ export default function LucidLab() {
     </div>
   );
 }
-
