@@ -1,12 +1,18 @@
 import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, Beaker, CircuitBoard, FlaskConical, Cpu, Menu, X } from "lucide-react";
+import { ArrowRight, Beaker, CircuitBoard, FlaskConical, Cpu, Menu, X as CloseIcon, Send } from "lucide-react";
 
 // LucidLab — Monochrome Tech Lab Landing (fixed)
 // - Sticky corner beam that reveals a grid only where it hits
 // - Echo, dust, bloom-on-contact, kinetic underlines, progress bar, ASCII mode, prism
 // - Syntax fix: all CSS now lives INSIDE the <style>{` ... `}</style> template literal
 // - Lightweight runtime tests available via window.runLucidLabTests()
+
+const XLogo = (props: React.SVGProps<SVGSVGElement>) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+    <path d="M3 3h4.9l4.8 6.4L17.6 3H21l-7.4 9.5L21 21h-4.9l-5.3-6.9L6.4 21H3l7.6-9.5L3 3z" />
+  </svg>
+);
 
 export default function LucidLab() {
   const rootRef = useRef<HTMLDivElement>(null);
@@ -29,19 +35,19 @@ export default function LucidLab() {
   // Close mobile menu when clicking outside or on navigation
   useEffect(() => {
     if (!mobileMenuOpen) return;
-    
+
     const handleClickOutside = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target.closest('header')) {
         setMobileMenuOpen(false);
       }
     };
-    
+
     // Add a small delay to prevent immediate closing
     const timer = setTimeout(() => {
       document.addEventListener('click', handleClickOutside);
     }, 100);
-    
+
     return () => {
       clearTimeout(timer);
       document.removeEventListener('click', handleClickOutside);
@@ -51,11 +57,11 @@ export default function LucidLab() {
   // Parallax scroll effect for mobile
   useEffect(() => {
     if (!isMobile) return;
-    
+
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isMobile]);
@@ -63,15 +69,15 @@ export default function LucidLab() {
   // Close modal on ESC key & prevent body scroll
   useEffect(() => {
     if (!selectedProject) return;
-    
+
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') setSelectedProject(null);
     };
-    
+
     // Prevent body scroll when modal is open
     document.body.style.overflow = 'hidden';
     document.addEventListener('keydown', handleEscape);
-    
+
     return () => {
       document.body.style.overflow = '';
       document.removeEventListener('keydown', handleEscape);
@@ -80,7 +86,7 @@ export default function LucidLab() {
 
   useEffect(() => {
     const root = rootRef.current; if (!root) return;
-    
+
     // Skip expensive effects on mobile
     if (isMobile) {
       // Only add classes immediately without observer
@@ -93,10 +99,10 @@ export default function LucidLab() {
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.isIntersecting) {
-          (e.target as HTMLElement).classList.add('lit','scanned');
+          (e.target as HTMLElement).classList.add('lit', 'scanned');
         }
       });
-    }, { 
+    }, {
       rootMargin: '0px 0px -5% 0px', // Less aggressive margin for mobile
       threshold: [0, 0.1] // Lower threshold so things appear earlier
     });
@@ -130,7 +136,7 @@ export default function LucidLab() {
         o.type = 'square'; o.frequency.value = 2400; o.connect(g); g.connect(ctx.destination);
         const now = ctx.currentTime; g.gain.setValueAtTime(0.02, now); g.gain.exponentialRampToValueAtTime(0.0001, now + 0.08);
         o.start(); o.stop(now + 0.08);
-      } catch {}
+      } catch { }
     };
     if (!isMobile) {
       clickTargets = Array.from(root.querySelectorAll('a, button, input, textarea'));
@@ -160,21 +166,21 @@ export default function LucidLab() {
   }, [isMobile]);
 
   const features = [
-    { title: "On-Chain Gaming", icon: <CircuitBoard className="size-5"/>, desc: "Interactive pixel canvas where every action is a transaction on Hathor Network—collaborative art meets blockchain.", projectId: "p1" },
-    { title: "Provably Fair Lottery", icon: <FlaskConical className="size-5"/>, desc: "Transparent lottery system with verifiable randomness and automated prize distribution on Hathor.", projectId: "p2" },
-    { title: "DAO Governance", icon: <Cpu className="size-5"/>, desc: "Token-weighted voting mechanisms for decentralized decision making with on-chain proposal tracking.", projectId: "p3" },
-    { title: "Smart Contract Stack", icon: <Beaker className="size-5"/>, desc: "Building on Hathor's DAG architecture with secure patterns and auditable logic for all our dApps.", projectId: null },
+    { title: "On-Chain Gaming", icon: <CircuitBoard className="size-5" />, desc: "Interactive pixel canvas where every action is a transaction on Hathor Network—collaborative art meets blockchain.", projectId: "p1" },
+    { title: "Provably Fair Lottery", icon: <FlaskConical className="size-5" />, desc: "Transparent lottery system with verifiable randomness and automated prize distribution on Hathor.", projectId: "p2" },
+    { title: "DAO Governance", icon: <Cpu className="size-5" />, desc: "Token-weighted voting mechanisms for decentralized decision making with on-chain proposal tracking.", projectId: "p3" },
+    { title: "Smart Contract Stack", icon: <Beaker className="size-5" />, desc: "Building on Hathor's DAG architecture with secure patterns and auditable logic for all our dApps.", projectId: null },
   ];
 
   const projects = [
-    { 
-      k: "p1", 
+    {
+      k: "p1",
       symbol: "Pc",
       atomicNumber: 1,
-      name: "Pixel Canvas", 
-      tag: "In Development", 
-      nets:["HATHOR"], 
-      blurb: "Collaborative pixel art game inspired by the Million Dollar Homepage. Each pixel placement is a permanent transaction on Hathor.", 
+      name: "Pixel Canvas",
+      tag: "In Development",
+      nets: ["HATHOR"],
+      blurb: "Collaborative pixel art game inspired by the Million Dollar Homepage. Each pixel placement is a permanent transaction on Hathor.",
       status: "building",
       description: "A decentralized collaborative canvas where every pixel is a permanent transaction on the Hathor blockchain. Create art, claim space, and be part of blockchain history.",
       features: [
@@ -186,14 +192,14 @@ export default function LucidLab() {
       tech: ["Hathor Smart Contracts", "React", "Canvas API", "Web3 Integration"],
       position: { row: 1, col: 1 }
     },
-    { 
-      k: "p2", 
+    {
+      k: "p2",
       symbol: "Lt",
       atomicNumber: 2,
-      name: "HTR Lottery", 
-      tag: "Planned", 
-      nets:["HATHOR"], 
-      blurb: "Provably fair lottery with transparent draws, verifiable randomness, and automatic prize distribution on-chain.", 
+      name: "HTR Lottery",
+      tag: "Planned",
+      nets: ["HATHOR"],
+      blurb: "Provably fair lottery with transparent draws, verifiable randomness, and automatic prize distribution on-chain.",
       status: "planned",
       description: "A fully transparent lottery system built on Hathor with verifiable randomness and automated prize distribution. Every draw is auditable and provably fair.",
       features: [
@@ -205,14 +211,14 @@ export default function LucidLab() {
       tech: ["Hathor Network", "VRF (Verifiable Random Function)", "Smart Contracts", "TypeScript"],
       position: { row: 1, col: 18 }
     },
-    { 
-      k: "p3", 
+    {
+      k: "p3",
       symbol: "Dv",
       atomicNumber: 3,
-      name: "DAO Voting", 
-      tag: "Planned", 
-      nets:["HATHOR"], 
-      blurb: "Decentralized governance platform with token-weighted voting, proposal creation, and on-chain execution.", 
+      name: "DAO Voting",
+      tag: "Planned",
+      nets: ["HATHOR"],
+      blurb: "Decentralized governance platform with token-weighted voting, proposal creation, and on-chain execution.",
       status: "planned",
       description: "A complete DAO governance platform enabling decentralized decision-making with token-weighted voting, proposal management, and on-chain execution.",
       features: [
@@ -390,8 +396,8 @@ export default function LucidLab() {
       <svg className="hidden" aria-hidden="true" focusable="false" width="0" height="0">
         <defs>
           <filter id="shimmer">
-            <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="2" seed="3" result="noise"/>
-            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+            <feTurbulence type="fractalNoise" baseFrequency="0.006" numOctaves="2" seed="3" result="noise" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G" />
           </filter>
         </defs>
       </svg>
@@ -405,12 +411,12 @@ export default function LucidLab() {
             </div>
             <span className="font-mono text-lg md:text-xl tracking-widest">heleolabs</span>
           </div>
-          
+
           {/* Desktop Nav */}
           <nav className="hidden gap-6 md:flex lg:gap-8">
-            {['about','projects','stack','contact'].map(i => (
-              <a 
-                key={i} 
+            {['about', 'projects', 'stack', 'community', 'contact'].map(i => (
+              <a
+                key={i}
                 href={`#${i}`}
                 onClick={(e) => {
                   e.preventDefault();
@@ -429,7 +435,7 @@ export default function LucidLab() {
           </nav>
 
           {/* Mobile Menu Button */}
-          <button 
+          <button
             onClick={(e) => {
               e.stopPropagation();
               setMobileMenuOpen(!mobileMenuOpen);
@@ -437,7 +443,7 @@ export default function LucidLab() {
             className="md:hidden p-2 rounded-lg border border-white/20 hover:border-white/40 transition z-50"
             aria-label="Toggle menu"
           >
-            {mobileMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+            {mobileMenuOpen ? <CloseIcon className="size-5" /> : <Menu className="size-5" />}
           </button>
         </div>
 
@@ -451,9 +457,9 @@ export default function LucidLab() {
             style={{ backgroundColor: '#000' }}
           >
             <nav className="flex flex-col px-4 py-4 gap-4">
-              {['about','projects','stack','contact'].map(i => (
-                <a 
-                  key={i} 
+              {['about', 'projects', 'stack', 'community', 'contact'].map(i => (
+                <a
+                  key={i}
                   href={`#${i}`}
                   onClick={(e) => {
                     e.preventDefault();
@@ -499,7 +505,7 @@ export default function LucidLab() {
           </motion.p>
 
           <div className="mt-8 md:mt-10 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 md:gap-4">
-            <a 
+            <a
               href="#contact"
               onClick={(e) => {
                 e.preventDefault();
@@ -512,9 +518,9 @@ export default function LucidLab() {
               }}
               className="group inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 px-6 py-3.5 md:px-5 md:py-3 font-medium tracking-wide transition hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-black touch-manipulation cursor-pointer"
             >
-              Engage <ArrowRight className="size-4 transition group-hover:translate-x-0.5"/>
+              Engage <ArrowRight className="size-4 transition group-hover:translate-x-0.5" />
             </a>
-            <a 
+            <a
               href="#projects"
               onClick={(e) => {
                 e.preventDefault();
@@ -532,7 +538,7 @@ export default function LucidLab() {
           </div>
 
           {/* Stats strip */}
-          <div 
+          <div
             className="mt-10 md:mt-14 grid grid-cols-2 gap-3 md:gap-4 md:grid-cols-4 observed"
             style={isMobile ? { transform: `translateY(${scrollY * 0.05}px)` } : {}}
           >
@@ -552,7 +558,7 @@ export default function LucidLab() {
 
         {/* FEATURES */}
         <section id="stack" className="relative mx-auto mt-12 md:mt-28 max-w-7xl px-4 md:px-6 observed">
-          <div 
+          <div
             className="grid gap-3 md:gap-4 md:grid-cols-2"
             style={isMobile ? { transform: `translateY(${scrollY * 0.03}px)` } : {}}
           >
@@ -570,7 +576,7 @@ export default function LucidLab() {
                 </div>
                 <p className="mt-3 text-xs md:text-sm text-white/70 leading-relaxed">{f.desc}</p>
                 <div className="mt-4 h-px w-full bg-gradient-to-r from-white/40 to-transparent" />
-                <button 
+                <button
                   onClick={(e) => {
                     e.preventDefault();
                     const element = document.getElementById('projects');
@@ -578,7 +584,7 @@ export default function LucidLab() {
                       const yOffset = -80;
                       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
                       window.scrollTo({ top: y, behavior: 'smooth' });
-                      
+
                       // Open modal after scroll completes (if project linked)
                       if (f.projectId) {
                         setTimeout(() => {
@@ -589,7 +595,7 @@ export default function LucidLab() {
                   }}
                   className="mt-3 md:mt-4 inline-flex items-center gap-2 text-[10px] md:text-xs uppercase tracking-[0.25em] text-white/70 transition hover:text-white touch-manipulation cursor-pointer"
                 >
-                  Explore <ArrowRight className="size-3"/>
+                  Explore <ArrowRight className="size-3" />
                 </button>
               </motion.div>
             ))}
@@ -605,7 +611,7 @@ export default function LucidLab() {
             </div>
             <span className="hidden sm:inline text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/50">2025 ROADMAP</span>
           </div>
-          
+
           {/* Mobile: Simple card grid */}
           <div className="md:hidden grid grid-cols-1 gap-3">
             {projects.map((p, idx) => (
@@ -630,14 +636,13 @@ export default function LucidLab() {
                       </div>
                     )}
                   </div>
-                  
+
                   {/* Info */}
                   <div className="flex-1 min-w-0">
                     <h3 className="font-mono text-lg font-bold text-white">{p.name}</h3>
                     <div className="mt-1 flex items-center gap-2">
-                      <span className={`inline-block rounded px-2 py-0.5 text-[10px] uppercase tracking-wider ${
-                        p.status === 'building' ? 'bg-white/10 text-white/80' : 'bg-white/5 text-white/60'
-                      }`}>
+                      <span className={`inline-block rounded px-2 py-0.5 text-[10px] uppercase tracking-wider ${p.status === 'building' ? 'bg-white/10 text-white/80' : 'bg-white/5 text-white/60'
+                        }`}>
                         {p.tag}
                       </span>
                       <span className="text-xs text-white/50 font-mono">HATHOR</span>
@@ -649,9 +654,9 @@ export default function LucidLab() {
           </div>
 
           {/* Desktop: Real Periodic Table Grid - 18 columns x 7 rows */}
-          <div 
+          <div
             className="hidden md:grid gap-1 md:gap-2 pb-4"
-            style={{ 
+            style={{
               gridTemplateColumns: 'repeat(18, minmax(35px, 1fr))'
             }}
           >
@@ -659,16 +664,16 @@ export default function LucidLab() {
             {Array.from({ length: 126 }).map((_, index) => {
               const row = Math.floor(index / 18) + 1;
               const col = (index % 18) + 1;
-              
+
               // Determine if this position should be invisible (authentic periodic table shape)
-              const isInvisible = 
+              const isInvisible =
                 // Row 1: only columns 1 and 18 (H and He)
                 (row === 1 && col > 1 && col < 18) ||
                 // Rows 2-3: only columns 1-2 and 13-18 (no transition metals yet)
                 ((row === 2 || row === 3) && col > 2 && col < 13);
-              
+
               const project = projects.find(p => p.position.row === row && p.position.col === col);
-              
+
               if (isInvisible) {
                 // Invisible space to create authentic periodic table shape
                 return (
@@ -689,21 +694,21 @@ export default function LucidLab() {
                     <div className="absolute top-0.5 left-0.5 text-[6px] md:text-[8px] text-white/60 font-mono">
                       {project.atomicNumber}
                     </div>
-                    
+
                     {/* Status Indicator */}
                     {project.status === 'building' && (
                       <div className="absolute top-0.5 right-0.5">
                         <div className="h-1 w-1 md:h-1.5 md:w-1.5 rounded-full bg-white/50 animate-pulse" />
                       </div>
                     )}
-                    
+
                     {/* Element Symbol */}
                     <div className="absolute inset-0 flex items-center justify-center">
                       <div className="text-base md:text-xl lg:text-2xl font-bold text-white font-mono group-hover:scale-110 transition-transform">
                         {project.symbol}
                       </div>
                     </div>
-                    
+
                     {/* Element Name - hidden on small screens */}
                     <div className="hidden lg:block absolute bottom-0.5 left-0 right-0 text-center text-[6px] text-white/50 uppercase tracking-wider font-mono truncate px-0.5">
                       {project.name}
@@ -713,8 +718,8 @@ export default function LucidLab() {
               } else {
                 // Empty space in periodic table - future project slot
                 return (
-                  <div 
-                    key={`empty-${index}`} 
+                  <div
+                    key={`empty-${index}`}
                     className="aspect-square border border-white/[0.03] bg-black/20 hover:border-white/10 transition-colors relative group"
                   >
                     {/* Question mark hint on hover for empty slots */}
@@ -726,7 +731,7 @@ export default function LucidLab() {
               }
             })}
           </div>
-          
+
           {/* Legend - Desktop only (shows future slots) */}
           <div className="hidden md:flex mt-6 md:mt-8 flex-wrap items-center gap-4 text-xs text-white/50">
             <div className="flex items-center gap-2">
@@ -742,7 +747,7 @@ export default function LucidLab() {
               <span>Future Slots</span>
             </div>
           </div>
-          
+
           {/* Legend - Mobile (simpler) */}
           <div className="md:hidden mt-4 flex flex-wrap items-center gap-4 text-xs text-white/50">
             <div className="flex items-center gap-2">
@@ -756,6 +761,56 @@ export default function LucidLab() {
           </div>
         </section>
 
+        {/* COMMUNITY */}
+        <section id="community" className="relative mx-auto mt-12 md:mt-28 max-w-7xl px-4 md:px-6 observed">
+          <div className="grid gap-6 md:grid-cols-5">
+            <div className="md:col-span-2">
+              <h2 className="scan text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight">Join the Community</h2>
+              <p className="mt-3 max-w-sm text-sm md:text-base text-white/70 leading-relaxed">
+                Stay close to the lab—connect with builders, get realtime drops, and share feedback as we ship.
+              </p>
+            </div>
+            <div className="md:col-span-3 grid gap-3 sm:grid-cols-2">
+              <a
+                href="https://t.me/HeleoLabs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex items-center justify-between rounded-xl border border-white/15 bg-black/40 px-4 py-4 md:px-5 md:py-6 transition hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/5 card reactive"
+              >
+                <div>
+                  <span className="text-xs uppercase tracking-[0.3em] text-white/50">Telegram</span>
+                  <p className="mt-1 text-sm md:text-base font-medium text-white">HeleoLabs Relay</p>
+                  <span className="mt-2 inline-flex items-center gap-2 text-xs text-white/60 group-hover:text-white">
+                    <Send className="size-4 text-white/60 group-hover:text-white" />
+                    Enter the channel
+                  </span>
+                </div>
+                <div className="ml-4 hidden sm:flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5">
+                  <Send className="size-5 text-white/70" />
+                </div>
+              </a>
+              <a
+                href="https://x.com/heleolabs"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative flex items-center justify-between rounded-xl border border-white/15 bg-black/40 px-4 py-4 md:px-5 md:py-6 transition hover:-translate-y-0.5 hover:border-white/40 hover:bg-white/5 card reactive"
+              >
+                <div>
+                  <span className="text-xs uppercase tracking-[0.3em] text-white/50">X</span>
+                  <p className="mt-1 text-sm md:text-base font-medium text-white">@heleolabs</p>
+                  <span className="mt-2 inline-flex items-center gap-2 text-xs text-white/60 group-hover:text-white">
+                    <XLogo className="size-4 text-white/60 group-hover:text-white" />
+                    Follow updates
+                  </span>
+                </div>
+                <div className="ml-4 hidden sm:flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/5">
+                  <XLogo className="size-5 text-white/70" />
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+
         {/* CONTACT */}
         <section id="contact" className="relative mx-auto mt-12 md:mt-32 max-w-7xl px-4 md:px-6 pb-16 md:pb-24 observed">
           <div className="grid gap-6 md:gap-8 md:grid-cols-5">
@@ -764,7 +819,7 @@ export default function LucidLab() {
               <p className="mt-3 max-w-md text-sm md:text-base text-white/70 leading-relaxed">Interested in our projects or want to collaborate? Reach out and let's build on Hathor together.</p>
               <a href="mailto:hello@heleolabs.dev" className="mt-6 inline-block rounded-xl border border-white/30 px-5 py-3.5 md:py-3 font-medium tracking-wide transition hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-black text-sm md:text-base touch-manipulation">hello@heleolabs.dev</a>
             </div>
-            <form 
+            <form
               className="reactive md:col-span-3 rounded-xl md:rounded-2xl border border-white/10 p-4 md:p-6 card"
               onSubmit={(e) => {
                 e.preventDefault();
@@ -772,44 +827,44 @@ export default function LucidLab() {
                 const name = formData.get('name') as string;
                 const email = formData.get('email') as string;
                 const brief = formData.get('brief') as string;
-                
+
                 const subject = encodeURIComponent(`Project Inquiry from ${name || 'Website Contact'}`);
                 const body = encodeURIComponent(
                   `Name: ${name}\nEmail: ${email}\n\nMessage:\n${brief}`
                 );
-                
+
                 window.location.href = `mailto:hello@heleolabs.dev?subject=${subject}&body=${body}`;
               }}
             >
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="block text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/60">Name
-                  <input 
+                  <input
                     name="name"
-                    className="mt-2 w-full rounded-lg border border-white/15 bg-black px-3 py-2.5 md:py-2 text-sm md:text-base text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none touch-manipulation" 
-                    placeholder="Your Name" 
+                    className="mt-2 w-full rounded-lg border border-white/15 bg-black px-3 py-2.5 md:py-2 text-sm md:text-base text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none touch-manipulation"
+                    placeholder="Your Name"
                   />
                 </label>
                 <label className="block text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/60">Email
-                  <input 
+                  <input
                     name="email"
-                    type="email" 
-                    className="mt-2 w-full rounded-lg border border-white/15 bg-black px-3 py-2.5 md:py-2 text-sm md:text-base text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none touch-manipulation" 
-                    placeholder="you@email.com" 
+                    type="email"
+                    className="mt-2 w-full rounded-lg border border-white/15 bg-black px-3 py-2.5 md:py-2 text-sm md:text-base text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none touch-manipulation"
+                    placeholder="you@email.com"
                   />
                 </label>
               </div>
               <label className="mt-4 block text-[10px] md:text-xs uppercase tracking-[0.3em] text-white/60">Brief
-                <textarea 
+                <textarea
                   name="brief"
-                  className="mt-2 min-h-32 md:min-h-36 w-full rounded-lg border border-white/15 bg-black px-3 py-2.5 md:py-2 text-sm md:text-base text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none resize-none touch-manipulation" 
-                  placeholder="What are we building and why?" 
+                  className="mt-2 min-h-32 md:min-h-36 w-full rounded-lg border border-white/15 bg-black px-3 py-2.5 md:py-2 text-sm md:text-base text-white placeholder:text-white/30 focus:border-white/40 focus:outline-none resize-none touch-manipulation"
+                  placeholder="What are we building and why?"
                 />
               </label>
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 className="mt-5 w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 px-6 py-3.5 md:px-5 md:py-3 font-medium tracking-wide transition hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-black touch-manipulation"
               >
-                Transmit <ArrowRight className="size-4"/>
+                Transmit <ArrowRight className="size-4" />
               </button>
             </form>
           </div>
@@ -843,7 +898,7 @@ export default function LucidLab() {
               className="absolute top-4 right-4 p-2 rounded-lg border border-white/20 hover:border-white/40 transition"
               aria-label="Close"
             >
-              <X className="size-5" />
+              <CloseIcon className="size-5" />
             </button>
 
             {projects.filter(p => p.k === selectedProject).map(project => (
@@ -853,9 +908,8 @@ export default function LucidLab() {
                   <div>
                     <h3 className="text-2xl md:text-3xl font-bold mb-2">{project.name}</h3>
                     <div className="flex items-center gap-2">
-                      <span className={`inline-block rounded px-2 py-1 text-xs uppercase tracking-wider ${
-                        project.status === 'building' ? 'bg-white/10 text-white/80' : 'bg-white/5 text-white/60'
-                      }`}>
+                      <span className={`inline-block rounded px-2 py-1 text-xs uppercase tracking-wider ${project.status === 'building' ? 'bg-white/10 text-white/80' : 'bg-white/5 text-white/60'
+                        }`}>
                         {project.tag}
                       </span>
                       {project.nets?.map((n) => (

@@ -102,6 +102,11 @@ heleolabs/
 - Firefox (latest)
 - Safari (latest)
 
+## Community
+
+- 🛰️ Telegram: [Join the HeleoLabs Relay](https://t.me/HeleoLabs)
+- ✖️ X: [@heleolabs](https://x.com/heleolabs)
+
 ## License
 
 MIT
