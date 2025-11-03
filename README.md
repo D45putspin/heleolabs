@@ -1,6 +1,6 @@
-# HeleoLab
+# heleolabs
 
-A monochrome landing page for HeleoLab—building three innovative dApps on Hathor Network: a collaborative pixel canvas game, a provably fair lottery, and a DAO voting platform.
+A monochrome landing page for heleolabs—building three innovative dApps on Hathor Network: a collaborative pixel canvas game, a provably fair lottery, and a DAO voting platform.
 
 ## Features
 
@@ -108,4 +108,4 @@ MIT
 
 ---
 
-© 2025 HeleoLab — Building on Hathor Network
+© 2025 heleolabs — Building on Hathor Network

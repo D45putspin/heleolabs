@@ -401,9 +401,9 @@ export default function LucidLab() {
         <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-5 md:px-6 md:py-6">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="relative h-12 w-12 md:h-14 md:w-14 border-2 border-white bg-black overflow-hidden">
-              <img src="/HL.png" alt="HeleoLab logo" className="h-full w-full object-contain" />
+              <img src="/HL.png" alt="heleolabs logo" className="h-full w-full object-contain" />
             </div>
-            <span className="font-mono text-lg md:text-xl tracking-widest">HELEOLAB</span>
+            <span className="font-mono text-lg md:text-xl tracking-widest">heleolabs</span>
           </div>
           
           {/* Desktop Nav */}
@@ -762,7 +762,7 @@ export default function LucidLab() {
             <div className="md:col-span-2">
               <h2 className="scan text-xl md:text-2xl lg:text-3xl font-semibold tracking-tight">Get In Touch</h2>
               <p className="mt-3 max-w-md text-sm md:text-base text-white/70 leading-relaxed">Interested in our projects or want to collaborate? Reach out and let's build on Hathor together.</p>
-              <a href="mailto:hello@heleolab.dev" className="mt-6 inline-block rounded-xl border border-white/30 px-5 py-3.5 md:py-3 font-medium tracking-wide transition hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-black text-sm md:text-base touch-manipulation">hello@heleolab.dev</a>
+              <a href="mailto:hello@heleolabs.dev" className="mt-6 inline-block rounded-xl border border-white/30 px-5 py-3.5 md:py-3 font-medium tracking-wide transition hover:-translate-y-0.5 hover:border-white hover:bg-white hover:text-black text-sm md:text-base touch-manipulation">hello@heleolabs.dev</a>
             </div>
             <form 
               className="reactive md:col-span-3 rounded-xl md:rounded-2xl border border-white/10 p-4 md:p-6 card"
@@ -778,7 +778,7 @@ export default function LucidLab() {
                   `Name: ${name}\nEmail: ${email}\n\nMessage:\n${brief}`
                 );
                 
-                window.location.href = `mailto:hello@heleolab.dev?subject=${subject}&body=${body}`;
+                window.location.href = `mailto:hello@heleolabs.dev?subject=${subject}&body=${body}`;
               }}
             >
               <div className="grid gap-4 md:grid-cols-2">
@@ -818,7 +818,7 @@ export default function LucidLab() {
 
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-white/10 px-4 md:px-6 py-6 md:py-8 text-center text-xs md:text-sm text-white/50">
-        © {new Date().getFullYear()} HeleoLab — Building on Hathor Network
+        © {new Date().getFullYear()} heleolabs — Building on Hathor Network
       </footer>
 
       {/* PROJECT MODAL */}
