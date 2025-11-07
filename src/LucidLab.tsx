@@ -16,7 +16,7 @@ const XLogo = (props: React.SVGProps<SVGSVGElement>) => (
 
 export default function LucidLab() {
   const rootRef = useRef<HTMLDivElement>(null);
-
+  ;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -117,7 +117,7 @@ export default function LucidLab() {
         const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight);
         const pct = Math.max(0, Math.min(1, scrolled)) * 100;
         h.style.setProperty('--progress', String(pct));
-        setProgress(pct);
+
       };
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
