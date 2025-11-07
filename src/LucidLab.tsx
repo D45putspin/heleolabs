@@ -545,7 +545,7 @@ export default function LucidLab() {
             {[
               ["In Development", "3"],
               ["Network", "Hathor"],
-              ["Launch", "Q2 2025"],
+              ["Launch", "Q2 2026"],
               ["Status", "Building"],
             ].map(([k, v]) => (
               <div key={k} className="reactive rounded-xl md:rounded-2xl card border border-white/10 p-3 md:p-4">
