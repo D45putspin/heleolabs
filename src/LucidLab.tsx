@@ -16,7 +16,7 @@ const XLogo = (props: React.SVGProps<SVGSVGElement>) => (
 
 export default function LucidLab() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
+
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -614,7 +614,7 @@ export default function LucidLab() {
 
           {/* Mobile: Simple card grid */}
           <div className="md:hidden grid grid-cols-1 gap-3">
-            {projects.map((p, idx) => (
+            {projects.map((p) => (
               <motion.div
                 key={p.k}
                 initial={false}
